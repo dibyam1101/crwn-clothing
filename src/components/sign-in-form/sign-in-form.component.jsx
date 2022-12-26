@@ -3,7 +3,8 @@ import FormInput from './../form-input/form-input.component';
 import {useState} from 'react';
 import Button from './../button/button.component';
 import {createUserDocumentFromAuth, signInUserWithEmailAndPassoword} from "../../utils/firebase/firebase.utils";
-import { signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
+import {signInWithGooglePopup} from "../../utils/firebase/firebase.utils";
+
 
 const defaultFormFields = {
   email: "",
@@ -14,6 +15,7 @@ const SignInForm = () => {
 
   const [formFields, setFormFields] = useState(defaultFormFields)
   const {email, password} = formFields;
+
 
   const handleChange = (event) => {
     const {name, value} = event.target;
@@ -26,8 +28,7 @@ const SignInForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const userCredentials = await signInUserWithEmailAndPassoword(email, password);
-      console.log(userCredentials.user)
+      signInUserWithEmailAndPassoword(email, password);
 
     } catch (error) {
       console.log("Could not log in user with email and password");
@@ -37,8 +38,7 @@ const SignInForm = () => {
   }
 
   const signInWithGoogle = async () => {
-    const {user} = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    signInWithGooglePopup();
   }
 
   return (
@@ -64,7 +64,7 @@ const SignInForm = () => {
 
           <Button type="button"
             buttonType={"google"}
-            onClick = {signInWithGoogle}>
+            onClick={signInWithGoogle}>
             SIGN IN WITH GOOGLE
           </Button>
         </div>
