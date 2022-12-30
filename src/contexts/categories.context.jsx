@@ -1,24 +1,25 @@
 import { createContext, useState, useEffect } from "react";
 import { getCategoriesAndDocuments } from "./../utils/firebase/firebase.utils";
 
-export const ProductsContext = createContext({ products: [] });
+export const CategoriesContext = createContext({ categoriesMap: {} });
 
-export const ProductsProvider = ({ children }) => {
+export const CategoriesProvider = ({ children }) => {
   useEffect(() => {
     const getCategoriesMap = async () => {
-      return await getCategoriesAndDocuments();
+      const map =  await getCategoriesAndDocuments();
+      setCategoriesMap(map);
     };
 
     getCategoriesMap();
   }, []);
 
-  const [products, setProducts] = useState([]);
+  const [categoriesMap, setCategoriesMap] = useState({});
   const value = {
-    products,
+    categoriesMap,
   };
   return (
-    <ProductsContext.Provider value={value}>
+    <CategoriesContext.Provider value={value}>
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };
